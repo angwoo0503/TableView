@@ -55,3 +55,25 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
+extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        performSegue(withIdentifier: "toDetail", sender: nil)
+        
+        
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue == "toDetail" {
+            let detailVC = segue.destination as! DetailViewController
+            
+            detalVC.movieData = // 우리가 전달하기 원하는 영화 데이터
+        }
+    }
+    
+    
+    
+}
