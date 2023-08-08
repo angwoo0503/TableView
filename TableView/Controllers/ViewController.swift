@@ -19,8 +19,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
+        tableView.dataSource = self // delegate 역할과 동일
         tableView.rowHeight = 120
+        
+        tableView.delegate = self
         
         movieDataManager.makeMovieData()
         // moviesArray = movieDataManager.getMovieData()
@@ -49,7 +51,7 @@ extension ViewController: UITableViewDataSource {
         cell.mainImageView.image = movie.movieImage
         cell.movieNameLabel.text = movie.movieName
         cell.descriptionLabel.text = movie.movieDescription
-        //cell.selectionStyle = .none
+        cell.selectionStyle = .none
 
         return cell
     }
@@ -60,17 +62,21 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-        performSegue(withIdentifier: "toDetail", sender: nil)
+        performSegue(withIdentifier: "toDetail", sender: indexPath)
         
         
     }
     
-    
+    // perforSegue가 실행될 때 무조건 실행됨
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue == "toDetail" {
+        if segue.identifier == "toDetail" {
             let detailVC = segue.destination as! DetailViewController
             
-            detalVC.movieData = // 우리가 전달하기 원하는 영화 데이터
+            let array = movieDataManager.getMovieData()
+            
+            let indexPath = sender as! IndexPath
+            
+            detailVC.movieData = array[indexPath.row] // 우리가 전달하기 원하는 영화 데이터
         }
     }
     
